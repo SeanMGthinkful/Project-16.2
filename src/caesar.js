@@ -4,11 +4,40 @@
 // of the anonymous function on line 6
 
 const caesarModule = (function () {
-  // you can add any code you want within this function scope
 
   function caesar(input, shift, encode = true) {
-    // your solution code here
+    if (!shift || shift === 0 || shift < -25 || shift > 25) return false;
+    const alpha = "abcdefghijklmnopqrstuvwxyz";
+    let output = "";
+    
+    for(let i = 0; i < input.length; i++) {
+      let char = input[i].toLowerCase();
+      if (char.match(/[a-z]/i)) {
+        let isUpperCase = char.toUpperCase() === char;
+        char = char.toLowerCase();
+        let code = char.charCodeAt(0);
+        if(encode) {
+          code += shift;
+        } else {
+          code -= shift;
+        }
+        if (code < 97) {
+          code += 26;
+        } else if (code > 122) {
+          code -= 26;
+        }
+        char = String.fromCharCode(code);
+      if (isUpperCase) {
+        char = char.toUpperCase();
+      }
+    }
+    output += char;
   }
+
+  return output;
+}
+  
+      
 
   return {
     caesar,
