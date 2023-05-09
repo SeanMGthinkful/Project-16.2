@@ -1,13 +1,43 @@
-// Please refrain from tampering with the setup code provided here,
-// as the index.html and test files rely on this setup to work properly.
-// Only add code (helper methods, variables, etc.) within the scope
-// of the anonymous function on line 6
-
 const substitutionModule = (function () {
-  // you can add any code you want within this function scope
-
   function substitution(input, alphabet, encode = true) {
-    // your solution code here
+    if (!alphabet || alphabet.length !== 26) return false;
+
+    const originalAlphabet = "abcdefghijklmnopqrstuvwxyz".split("");
+    const inputArray = input.toLowerCase().split("");
+    const subAlphabetArray = alphabet.toLowerCase().split("");
+
+    const uniqueAlphabet = subAlphabetArray.filter(
+      (item, index, self) => self.indexOf(item) === index
+    );
+    if (uniqueAlphabet.length !== alphabet.length) return false;
+
+    const encodedMessage = () => {
+      let result = [];
+      const encode = (character) => {
+        const charIndex = originalAlphabet.indexOf(character);
+        const encodedCharacter = subAlphabetArray[charIndex];
+        result.push(encodedCharacter);
+      };
+      inputArray.forEach((char) => {
+        char === " " ? result.push(" ") : encode(char);
+      });
+      return result.join("");
+    };
+
+    const decodedMessage = () => {
+      let result = [];
+      const decode = (character) => {
+        const charIndex = subAlphabetArray.indexOf(character);
+        const decodedCharacter = originalAlphabet[charIndex];
+        result.push(decodedCharacter);
+      };
+      inputArray.forEach((char) => {
+        char === " " ? result.push(" ") : decode(char);
+      });
+      return result.join("");
+    };
+
+    return encode ? encodedMessage() : decodedMessage();
   }
 
   return {
